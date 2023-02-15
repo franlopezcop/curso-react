@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { Link, useLocation } from 'wouter';
+import { useLocation } from 'wouter';
+import ListOfGifs from "../../components/ListOfGifs";
+import { useGifs } from '../../hooks/useGifs'
+import TrendingSearches from "../../components/TrendingSearches";
 
 export default function Home () {
     const [keyword, setKeyword] = useState('')
     const [path, setLocation] = useLocation()
+    const lastGif = useGifs()
+
     const handleSubmit = (e) =>{
         e.preventDefault();
         setLocation(`/search/${keyword}`)
@@ -17,12 +22,9 @@ export default function Home () {
                 <input type='text' placeholder='Busca tu gif' value={keyword} onChange={handleChange}/>
                 <input type='submit'></input>
             </form>
-            <h3>Los Gifs mas populares</h3>
-            <ul>
-                <li><Link to='/search/pandas'>Pandas</Link></li>
-                <li><Link to='/search/leones'>Leones</Link></li>
-                <li><Link to='/search/tigres'>Tigres</Link></li>
-            </ul>
+            <h3>Ultima Busqueda</h3>
+            <ListOfGifs gifs={lastGif} />
+            <TrendingSearches />
         </div>
     )
 }
